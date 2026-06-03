@@ -1,3 +1,6 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 // IMPORTANT: Il ne faut pas changer la signature des méthodes
 // de cette classe, ni le nom de la classe.
 // Vous pouvez par contre ajouter d'autres méthodes (ça devrait
@@ -23,20 +26,31 @@ class Board {
         board[m.getRow()][m.getCol()] = mark;
     }
 
+    public void undo(Move m){
+        board[m.getRow()][m.getCol()] = Mark.EMPTY;
+    }
+
 
     // retourne  100 pour une victoire
     //          -100 pour une défaite
     //           0   pour un match nul
     // Ne pas changer la signature de cette méthode
     public int evaluate(Mark mark) {
-        Mark opponent;
-        if(mark == Mark.X) opponent = Mark.O;
-        else opponent = Mark.X;
-
         if(aGagne(mark)) return 100;
-        if(aGagne(opponent)) return -100;
-
+        if(aGagne(Utils.getOpposingPlayer(mark))) return -100;
         return 0;
+    }
+
+    public ArrayList<Move> getPossibleMoves(){
+        ArrayList<Move> moves = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if(board[i][j].equals(Mark.EMPTY)){
+                    moves.add(new Move(i,j));
+                }
+            }
+        }
+        return moves;
     }
 
     private boolean aGagne(Mark mark){
