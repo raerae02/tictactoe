@@ -1,5 +1,6 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 // IMPORTANT: Il ne faut pas changer la signature des méthodes
 // de cette classe, ni le nom de la classe.
@@ -11,10 +12,8 @@ class Board {
     // Ne pas changer la signature de cette méthode
     public Board() {
         board = new Mark[3][3];
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                board[i][j] = Mark.EMPTY;
-            }
+        for (Mark[] marks : board) {
+            Arrays.fill(marks, Mark.EMPTY);
         }
     }
 

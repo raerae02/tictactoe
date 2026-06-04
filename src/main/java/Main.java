@@ -4,8 +4,23 @@ import java.util.ArrayList;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
+        testEmptyBoard();
         testMinMax();
         testMinMaxAB();
+    }
+
+    private static void testEmptyBoard() {
+        CPUPlayer cpuPlayer = new CPUPlayer(Mark.X);
+        Board board = new Board();
+
+        ArrayList<Move> moves = cpuPlayer.getNextMoveMinMax(board);
+        int nodes = cpuPlayer.getNumOfExploredNodes();
+
+        ArrayList<Move> movesAB = cpuPlayer.getNextMoveAB(board);
+        int nodesAB = cpuPlayer.getNumOfExploredNodes();
+
+        System.out.println("MinMax: " + nodes + " nodes");
+        System.out.println("AB:     " + nodesAB + " nodes");
     }
 
     private static void testMinMax(){
@@ -22,7 +37,7 @@ public class Main {
         for (Move m : coups) {
             System.out.println("(" + m.getRow() + "," + m.getCol() + ")");
         }
-        System.out.println("Noeuds explorés Min-Max: " + cpuPlayer.getNumOfExploredNodes());
+        System.out.println("Explored nodes " + cpuPlayer.getNumOfExploredNodes());
     }
 
     private static void testMinMaxAB(){
@@ -39,6 +54,6 @@ public class Main {
         for (Move m : coups) {
             System.out.println("(" + m.getRow() + "," + m.getCol() + ")");
         }
-        System.out.println("Noeuds explorés Alpha-Beta: " + cpuPlayer.getNumOfExploredNodes());
+        System.out.println("Explored nodes " + cpuPlayer.getNumOfExploredNodes());
     }
 }
