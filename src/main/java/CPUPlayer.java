@@ -8,6 +8,7 @@ import java.util.ArrayList;
 class CPUPlayer
 {
     final private Mark PLAYER_MAX;
+    final private Mark PLAYER_MIN;
 
     // Contient le nombre de noeuds visités (le nombre
     // d'appel à la fonction MinMax ou Alpha Beta)
@@ -19,6 +20,7 @@ class CPUPlayer
     // joueur MAX (X ou O)
     public CPUPlayer(Mark cpu){
         PLAYER_MAX = cpu;
+        PLAYER_MIN = Utils.getOpposingPlayer(PLAYER_MAX);
     }
 
     // Ne pas changer cette méthode
@@ -32,7 +34,27 @@ class CPUPlayer
     public ArrayList<Move> getNextMoveMinMax(Board board)
     {
         numExploredNodes = 0;
-        return null;
+
+        int bestScore = -1000;
+        ArrayList<Move> bestMoves = new ArrayList<>();
+        ArrayList<Move> moves = board.getPossibleMoves();
+
+        for(Move move : moves){
+            board.play(move, PLAYER_MAX);
+            int score = minMax(board, PLAYER_MIN);
+            board.undo(move);
+
+            if(bestScore < score){
+                bestScore = score;
+                bestMoves.clear();
+                bestMoves.add(move);
+            }
+            else if (bestScore == score){
+                bestMoves.add(move);
+            }
+        }
+
+        return bestMoves;
     }
 
     // Retourne la liste des coups possibles.  Cette liste contient
@@ -43,7 +65,7 @@ class CPUPlayer
         return null;
     }
 
-    public int minMax(Board board, Mark currentPlayer) {
+    private int minMax(Board board, Mark currentPlayer) {
         numExploredNodes++;
         int score = board.evaluate(PLAYER_MAX);
 

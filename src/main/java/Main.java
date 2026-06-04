@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
@@ -12,7 +14,9 @@ public class Main {
         board.play(new Move(1, 1), Mark.X);
         System.out.println(board);
 
-        int score = cpuPlayer.minMax(board, Mark.O);
-        System.out.println(score);
+        ArrayList<Move> coups = cpuPlayer.getNextMoveMinMax(board);
+        for (Move m : coups) {
+            System.out.println("(" + m.getRow() + "," + m.getCol() + ")");
+        }
     }
 }
